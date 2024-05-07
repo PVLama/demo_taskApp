@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../constants/colors.dart';
 import '../models/task_model.dart';
@@ -15,6 +18,7 @@ class TaskController extends GetxController with StateMixin<List<TaskModel>> {
   final _tasks =  <TaskModel>[];
   List<TaskModel> get tasks => _tasks.toList();
   final selectedColor = Rx<Color>(bColor);
+  final image = Rx<File>(File(''));
 
   ColorController colorController = Get.put(ColorController());
   TextEditingController titleController = TextEditingController();
@@ -51,7 +55,7 @@ class TaskController extends GetxController with StateMixin<List<TaskModel>> {
   }
 
   @override
-  void onClos() {
+  void onClose() {
     titleController.dispose();
     desController.dispose();
     quillController.dispose();
@@ -156,6 +160,19 @@ class TaskController extends GetxController with StateMixin<List<TaskModel>> {
     }).toList();
     update();
     return foundTasks;
+  }
+
+  Future imagePicker() async {
+    try{
+      final imagePick = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if(imagePick == null){
+        return;
+      }
+      final imageTemp = File(imagePick.path);
+      image.value = imageTemp;
+    } on PlatformException catch (e){
+      return e;
+    }
   }
 
   changeUI() {
