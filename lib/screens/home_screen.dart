@@ -86,12 +86,15 @@ class HomeScreen extends StatelessWidget{
             size: 25,
           )),
       actions: [
-        IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.notifications_outlined,
-              size: 25,
-            ))
+        Container(
+          margin: EdgeInsets.all(5),
+          height: 100,
+          width: 100,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.green
+          ),
+        )
       ],
     );
   }

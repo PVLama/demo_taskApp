@@ -169,7 +169,9 @@ class TaskController extends GetxController with StateMixin<List<TaskModel>> {
         return;
       }
       final imageTemp = File(imagePick.path);
-      image.value = imageTemp;
+      final Delta delta = Delta()..insert({'image': imageTemp});
+      // quillController.document.compose(delta, changeSource: ChangeSource.local);
+      // image.value = imageTemp;
     } on PlatformException catch (e){
       return e;
     }
